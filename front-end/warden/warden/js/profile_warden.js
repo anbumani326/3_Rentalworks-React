@@ -4,12 +4,9 @@
 // ===================================================
 
 function renderProfile() {
-  const user = JSON.parse(sessionStorage.getItem('pg_user')) || MOCK_DATA.warden;
+  const user = JSON.parse(sessionStorage.getItem('warden_user')) || MOCK_DATA.warden;
 
-  // Warden is for Sunrise PG only
-  user.property = 'Sunrise PG';
-
-  setInner('profile-avatar-letter', user.name ? user.name[0].toUpperCase() : 'W');
+  setInner('profile-avatar-letter', user.name[0].toUpperCase());
   setInner('profile-name', user.name);
   setInner('profile-email', user.email);
 
@@ -21,10 +18,7 @@ function renderProfile() {
   if (nameInput)  nameInput.value  = user.name || '';
   if (emailInput) emailInput.value = user.email || '';
   if (phoneInput) phoneInput.value = user.phone || '';
-  if (propInput) {
-    propInput.value  = user.property;
-    propInput.disabled = true; // Lock the property field
-  }
+  if (propInput)  propInput.value  = user.property || 'Default Property';
 }
 
 function saveProfile() {
@@ -51,12 +45,11 @@ function saveProfile() {
   MOCK_DATA.warden.email = email;
   MOCK_DATA.warden.phone = phone;
 
-  // Update session using the central pg_user key
-  const user = JSON.parse(sessionStorage.getItem('pg_user')) || {};
+  // Update session
+  const user = JSON.parse(sessionStorage.getItem('warden_user')) || {};
   user.name  = name;
   user.email = email;
-  user.phone = phone;
-  sessionStorage.setItem('pg_user', JSON.stringify(user));
+  sessionStorage.setItem('warden_user', JSON.stringify(user));
 
   // Immediately update left profile card
   setInner('profile-avatar-letter', name[0].toUpperCase());
