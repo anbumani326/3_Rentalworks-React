@@ -192,20 +192,6 @@ function updateComplaintStatus(newStatus) {
     by: 'Warden',
     sentAt: new Date().toLocaleString()
   });
-
-  if (newStatus === 'resolved') {
-    crossNotifs.push({
-      id: Date.now() + 1,
-      title: 'Issue Resolved by Warden',
-      message: `The warden has resolved the complaint "${complaint.description || complaint.type}" for ${complaint.tenant} (Room ${complaint.room}).`,
-      type: 'success',
-      priority: 'important',
-      targetRole: 'owner',
-      by: 'Warden',
-      sentAt: new Date().toLocaleString()
-    });
-  }
-
   localStorage.setItem('cross_notifications', JSON.stringify(crossNotifs));
 }
 
@@ -296,7 +282,7 @@ function escalateComplaint() {
       status: complaint.status === 'in_progress' ? 'in-progress' : complaint.status || 'open',
       tenantName: complaint.tenant || 'Tenant',
       room: complaint.room || 'A-204',
-      propertyName: 'Sunrise PG',
+      propertyName: 'Sunrise PG Residency',
       reportedDate: new Date().toISOString().split('T')[0],
       _escalatedByWarden: true
     });
